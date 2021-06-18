@@ -139,14 +139,15 @@ def get_info(id):
     time.sleep(4)
     iframe = driver.find_elements_by_tag_name("iframe")[0]
     driver.switch_to.frame(iframe)
-    time.sleep(3)
+    time.sleep(4)
     fasta = driver.find_elements_by_tag_name("pre")[0].text
     metadata = driver.find_elements_by_xpath("//b[contains(text(), 'Virus detail')]/../../following-sibling::tr")
     metacontent = process_metadata(metadata)
     # process metadata here only
     driver.execute_script("document.getElementsByTagName('button')[1].click()")
-    time.sleep(4)
+    time.sleep(3)
     driver.switch_to.default_content()
+    time.sleep(2)
     info = {'metadata': metacontent,'fasta':fasta}
     return info
 
@@ -187,9 +188,9 @@ for curpg in range(pg_last):
         if name not in old_name:
             output = get_info(ID)
         cur_names.append(name)
-        if curpg < pg_last:
-            driver.execute_script("document.getElementsByClassName('yui-pg-next')[0].click()")
-            time.sleep(3)
+    if curpg < pg_last:
+        driver.execute_script("document.getElementsByClassName('yui-pg-next')[0].click()")
+        time.sleep(3)
 
 
 total = driver.find_elements_by_xpath("//*[contains(text(), 'Total:')]")[0].text
